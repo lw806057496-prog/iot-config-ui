@@ -9,11 +9,9 @@
       <el-form label-width="160px">
         <el-form-item label="DI">
           <el-tag :type="status.di ? 'success' : 'info'">{{ status.di ? '开' : '关' }}</el-tag>
-          <span class="status-tip">（仅显示，不可设置）</span>
         </el-form-item>
         <el-form-item label="DO">
           <el-tag :type="status.do ? 'success' : 'info'">{{ status.do ? '闭合' : '断开' }}</el-tag>
-          <span class="status-tip">（仅显示，不可设置）</span>
         </el-form-item>
       </el-form>
     </el-card>
@@ -86,10 +84,10 @@
         <template #header><span>DI/DO联动地址</span></template>
         <el-form label-width="160px">
           <el-form-item label="DO地址（本机）">
-            <el-input v-model="form.doAddr" style="width: 360px" placeholder="例如: 192.168.1.100:8080" />
+            <el-input v-model="form.doAddr" style="width: 360px" placeholder="例如: AA:BB:CC:DD:EE:FF" />
           </el-form-item>
           <el-form-item label="联动DI地址（他机）">
-            <el-input v-model="form.linkageDiAddr" style="width: 360px" placeholder="例如: 192.168.1.101:8080" />
+            <el-input v-model="form.linkageDiAddr" style="width: 360px" placeholder="例如: AA:BB:CC:DD:EE:01" />
           </el-form-item>
         </el-form>
       </el-card>
@@ -109,7 +107,6 @@
         <el-form label-width="160px">
           <el-form-item>
             <el-button type="primary" @click="save">保存</el-button>
-            <el-button @click="reset">重置</el-button>
           </el-form-item>
         </el-form>
       </el-card>

@@ -79,16 +79,16 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="本机地址">
-            <el-input v-model="form.localAddr" style="width: 360px" placeholder="例如: 192.168.1.100:8080" />
+            <el-input v-model="form.localAddr" style="width: 360px" placeholder="例如: AA:BB:CC:DD:EE:FF" />
           </el-form-item>
           <template v-if="form.workMode === 'host'">
             <el-form-item v-for="i in 8" :key="i" :label="`他机地址${i}`">
-              <el-input v-model="form.remoteAddrs[i-1]" style="width: 360px" :placeholder="`例如: 192.168.1.${100+i}:8080`" />
+              <el-input v-model="form.remoteAddrs[i-1]" style="width: 360px" :placeholder="`例如: AA:BB:CC:DD:EE:0${i}`" />
             </el-form-item>
           </template>
           <template v-if="form.workMode === 'slave'">
             <el-form-item label="他机地址">
-              <el-input v-model="form.remoteAddr" style="width: 360px" placeholder="例如: 192.168.1.1:8080" />
+              <el-input v-model="form.remoteAddr" style="width: 360px" placeholder="例如: AA:BB:CC:DD:EE:FF" />
             </el-form-item>
           </template>
         </el-form>
@@ -97,7 +97,6 @@
         <el-form label-width="160px">
           <el-form-item>
             <el-button type="primary" @click="save">保存</el-button>
-            <el-button @click="reset">重置</el-button>
           </el-form-item>
         </el-form>
       </el-card>
