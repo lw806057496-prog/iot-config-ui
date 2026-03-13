@@ -1,0 +1,167 @@
+{
+  "baseOrigin": "http://localhost:5173",
+  "outDir": "artifacts/route-form-audit/20260312-171803",
+  "routes": [
+    "/#/network/wireless-mode",
+    "/#/network/star-flash-host",
+    "/#/network/wifi-host",
+    "/#/network/lan-basic",
+    "/#/network/wireless-survey",
+    "/#/interface/ethernet-switch",
+    "/#/system/time-zone"
+  ],
+  "pages": [
+    {
+      "route": "/#/network/wireless-mode",
+      "url": "http://localhost:5173/#/network/wireless-mode",
+      "title": "无线网络模式",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/network-wireless-mode.png",
+      "labels": [
+        "模式",
+        "工作模式"
+      ],
+      "selects": [
+        {
+          "kind": "element-plus",
+          "index": 0,
+          "label": "模式",
+          "options": [
+            "SLE",
+            "WiFi"
+          ]
+        },
+        {
+          "kind": "element-plus",
+          "index": 1,
+          "label": "工作模式",
+          "options": [
+            "SLE",
+            "WiFi"
+          ]
+        }
+      ],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/network/star-flash-host",
+      "url": "http://localhost:5173/#/network/star-flash-host",
+      "title": "星闪网络",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/network-star-flash-host.png",
+      "labels": [
+        "启用",
+        "网络名称",
+        "信道"
+      ],
+      "selects": [],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/network/wifi-host",
+      "url": "http://localhost:5173/#/network/wifi-host",
+      "title": "WiFi网络",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/network-wifi-host.png",
+      "labels": [
+        "SSID",
+        "密码",
+        "DHCP"
+      ],
+      "selects": [],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/network/lan-basic",
+      "url": "http://localhost:5173/#/network/lan-basic",
+      "title": "LAN",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/network-lan-basic.png",
+      "labels": [
+        "网络模式",
+        "IP地址",
+        "子网掩码",
+        "网关",
+        "DNS"
+      ],
+      "selects": [
+        {
+          "kind": "element-plus",
+          "index": 0,
+          "label": "网络模式",
+          "options": [
+            "静态IP",
+            "DHCP"
+          ]
+        }
+      ],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/network/wireless-survey",
+      "url": "http://localhost:5173/#/network/wireless-survey",
+      "title": "网络诊断",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/network-wireless-survey.png",
+      "labels": [
+        "目标地址"
+      ],
+      "selects": [],
+      "alerts": [],
+      "placeholderHits": [
+        "暂无"
+      ],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/interface/ethernet-switch",
+      "url": "http://localhost:5173/#/interface/ethernet-switch",
+      "title": "网口开关",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/interface-ethernet-switch.png",
+      "labels": [
+        "LAN1",
+        "LAN2"
+      ],
+      "selects": [],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    },
+    {
+      "route": "/#/system/time-zone",
+      "url": "http://localhost:5173/#/system/time-zone",
+      "title": "系统时间",
+      "screenshot": "artifacts/route-form-audit/20260312-171803/screens/system-time-zone.png",
+      "labels": [
+        "时区",
+        "NTP 同步",
+        "NTP 服务器"
+      ],
+      "selects": [
+        {
+          "kind": "element-plus",
+          "index": 0,
+          "label": "时区",
+          "options": [
+            "Asia/Shanghai",
+            "UTC"
+          ]
+        }
+      ],
+      "alerts": [],
+      "placeholderHits": [],
+      "missingObviousFields": false
+    }
+  ],
+  "diagnostics": {
+    "console": {
+      "total": 2,
+      "errors": []
+    },
+    "pageErrors": [],
+    "requestFailures": []
+  }
+}

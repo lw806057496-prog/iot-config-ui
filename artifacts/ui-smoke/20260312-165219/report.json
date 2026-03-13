@@ -1,0 +1,14 @@
+{
+  "baseUrl": "http://localhost:5173/#/",
+  "outDir": "artifacts/ui-smoke/20260312-165219",
+  "visited": {
+    "networkFirstTitle": "无线网络模式",
+    "networkLanTitle": "LAN"
+  },
+  "console": {
+    "total": 2,
+    "errors": []
+  },
+  "pageErrors": [],
+  "requestFailures": []
+}
