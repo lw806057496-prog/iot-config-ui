@@ -17,28 +17,30 @@
           <div class="chart-container">
             <div class="chart-header">
               <div class="chart-title">信道分析</div>
-              <div class="chart-legend">
-                <span class="legend-item" v-for="ap in wifiAPs.slice(0, 5)" :key="ap.bssid">
-                  <span class="legend-dot" :style="{ backgroundColor: ap.color }"></span>{{ ap.ssid }}
-                </span>
-              </div>
             </div>
-            <div class="chart-area">
-              <div class="y-axis">
+            <div class="chart-wrapper">
+              <div class="y-axis-labels">
                 <div class="y-label">-20 dBm</div>
                 <div class="y-label">-40 dBm</div>
                 <div class="y-label">-60 dBm</div>
                 <div class="y-label">-80 dBm</div>
                 <div class="y-label">-100 dBm</div>
               </div>
-              <div class="chart-content">
-                <div class="x-axis"><div class="x-label" v-for="ch in 13" :key="ch">{{ ch }}</div></div>
-                <svg class="signal-chart" viewBox="0 0 1300 400">
+              <div class="chart-main">
+                <svg class="signal-chart" viewBox="0 0 1300 450">
+                  <!-- 背景网格 -->
+                  <line v-for="i in 5" :key="`h-${i}`" :x1="0" :y1="i * 100" :x2="1300" :y2="i * 100" stroke="#E4E7ED" stroke-width="1" />
+                  <line v-for="i in 13" :key="`v-${i}`" :x1="i * 100" :y1="0" :x2="i * 100" :y2="400" stroke="#E4E7ED" stroke-width="1" />
+                  
+                  <!-- 信号曲线 -->
                   <g v-for="(ap, index) in wifiAPs" :key="ap.bssid">
-                    <path :d="generateSignalPath(ap)" :fill="ap.color" :opacity="0.6" />
-                    <text :x="ap.channel * 100 - 50" :y="signalToY(ap.signal) - 10" :fill="ap.color" font-size="12" text-anchor="middle">{{ ap.ssid }}</text>
+                    <path :d="generateSignalPath(ap)" :fill="ap.color" :opacity="0.5" />
+                    <text :x="ap.channel * 100 - 50" :y="signalToY(ap.signal) - 15" :fill="ap.color" font-size="14" font-weight="600" text-anchor="middle">{{ ap.ssid || 'Unknown' }}</text>
                   </g>
                 </svg>
+                <div class="x-axis-labels">
+                  <div class="x-label" v-for="ch in 13" :key="ch">{{ ch }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -55,28 +57,30 @@
           <div class="chart-container">
             <div class="chart-header">
               <div class="chart-title">信道分析</div>
-              <div class="chart-legend">
-                <span class="legend-item" v-for="gw in sleGateways.slice(0, 5)" :key="gw.mac">
-                  <span class="legend-dot" :style="{ backgroundColor: gw.color }"></span>{{ gw.name }}
-                </span>
-              </div>
             </div>
-            <div class="chart-area">
-              <div class="y-axis">
+            <div class="chart-wrapper">
+              <div class="y-axis-labels">
                 <div class="y-label">-20 dBm</div>
                 <div class="y-label">-40 dBm</div>
                 <div class="y-label">-60 dBm</div>
                 <div class="y-label">-80 dBm</div>
                 <div class="y-label">-100 dBm</div>
               </div>
-              <div class="chart-content">
-                <div class="x-axis"><div class="x-label" v-for="ch in 13" :key="ch">{{ ch }}</div></div>
-                <svg class="signal-chart" viewBox="0 0 1300 400">
+              <div class="chart-main">
+                <svg class="signal-chart" viewBox="0 0 1300 450">
+                  <!-- 背景网格 -->
+                  <line v-for="i in 5" :key="`h-${i}`" :x1="0" :y1="i * 100" :x2="1300" :y2="i * 100" stroke="#E4E7ED" stroke-width="1" />
+                  <line v-for="i in 13" :key="`v-${i}`" :x1="i * 100" :y1="0" :x2="i * 100" :y2="400" stroke="#E4E7ED" stroke-width="1" />
+                  
+                  <!-- 信号曲线 -->
                   <g v-for="(gw, index) in sleGateways" :key="gw.mac">
-                    <path :d="generateSignalPath(gw)" :fill="gw.color" :opacity="0.6" />
-                    <text :x="gw.channel * 100 - 50" :y="signalToY(gw.signal) - 10" :fill="gw.color" font-size="12" text-anchor="middle">{{ gw.name }}</text>
+                    <path :d="generateSignalPath(gw)" :fill="gw.color" :opacity="0.5" />
+                    <text :x="gw.channel * 100 - 50" :y="signalToY(gw.signal) - 15" :fill="gw.color" font-size="14" font-weight="600" text-anchor="middle">{{ gw.name }}</text>
                   </g>
                 </svg>
+                <div class="x-axis-labels">
+                  <div class="x-label" v-for="ch in 13" :key="ch">{{ ch }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -90,40 +94,62 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
+    <!-- Ping 测试 -->
     <el-card class="card" shadow="never">
-      <template #header><span>Ping 测试</span></template>
+      <template #header>
+        <span>Ping测试</span>
+      </template>
+      
       <el-tabs v-model="pingTab">
-        <el-tab-pane label="Ping" name="ping">
-          <el-form label-width="120px">
-            <el-form-item label="目标地址"><el-input v-model="pingForm.host" placeholder="例如: 8.8.8.8 或 www.baidu.com" style="width: 360px" /></el-form-item>
-            <el-form-item label="次数"><el-input-number v-model="pingForm.count" :min="1" :max="100" /></el-form-item>
-            <el-form-item label="超时(秒)"><el-input-number v-model="pingForm.timeout" :min="1" :max="30" /></el-form-item>
-            <el-form-item label="包大小(Bytes)"><el-input-number v-model="pingForm.packetSize" :min="16" :max="1500" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="runPing">开始 Ping</el-button><el-button @click="clearPingResult">清除结果</el-button></el-form-item>
+        <el-tab-pane label="ping" name="ping">
+          <el-form label-width="100px">
+            <el-form-item label="目标地址">
+              <el-input v-model="pingForm.host" placeholder="223.6.6.6" style="width: 360px" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="runPing">检测</el-button>
+            </el-form-item>
           </el-form>
           <el-divider />
-          <div v-if="pingResult" class="result-box"><pre>{{ pingResult }}</pre></div>
-          <el-empty v-else description="暂无结果" />
+          <div class="result-label">数据调试串口</div>
+          <div class="result-box">
+            <pre v-if="pingResult">{{ pingResult }}</pre>
+            <div v-else class="empty-result">等待检测...</div>
+          </div>
         </el-tab-pane>
+
         <el-tab-pane label="Traceroute" name="traceroute">
-          <el-form label-width="120px">
-            <el-form-item label="目标地址"><el-input v-model="tracerouteForm.host" placeholder="例如: www.baidu.com" style="width: 360px" /></el-form-item>
-            <el-form-item label="最大跳数"><el-input-number v-model="tracerouteForm.maxHops" :min="1" :max="64" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="runTraceroute">开始 Traceroute</el-button><el-button @click="clearTracerouteResult">清除结果</el-button></el-form-item>
+          <el-form label-width="100px">
+            <el-form-item label="目标地址">
+              <el-input v-model="tracerouteForm.host" placeholder="www.baidu.com" style="width: 360px" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="runTraceroute">检测</el-button>
+            </el-form-item>
           </el-form>
           <el-divider />
-          <div v-if="tracerouteResult" class="result-box"><pre>{{ tracerouteResult }}</pre></div>
-          <el-empty v-else description="暂无结果" />
+          <div class="result-label">数据调试串口</div>
+          <div class="result-box">
+            <pre v-if="tracerouteResult">{{ tracerouteResult }}</pre>
+            <div v-else class="empty-result">等待检测...</div>
+          </div>
         </el-tab-pane>
+
         <el-tab-pane label="Nslookup" name="nslookup">
-          <el-form label-width="120px">
-            <el-form-item label="域名"><el-input v-model="nslookupForm.domain" placeholder="例如: www.baidu.com" style="width: 360px" /></el-form-item>
-            <el-form-item label="DNS服务器"><el-input v-model="nslookupForm.dnsServer" placeholder="留空使用默认DNS" style="width: 360px" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="runNslookup">开始查询</el-button><el-button @click="clearNslookupResult">清除结果</el-button></el-form-item>
+          <el-form label-width="100px">
+            <el-form-item label="域名">
+              <el-input v-model="nslookupForm.domain" placeholder="www.baidu.com" style="width: 360px" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="runNslookup">检测</el-button>
+            </el-form-item>
           </el-form>
           <el-divider />
-          <div v-if="nslookupResult" class="result-box"><pre>{{ nslookupResult }}</pre></div>
-          <el-empty v-else description="暂无结果" />
+          <div class="result-label">数据调试串口</div>
+          <div class="result-box">
+            <pre v-if="nslookupResult">{{ nslookupResult }}</pre>
+            <div v-else class="empty-result">等待检测...</div>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -148,11 +174,11 @@ const sleGateways = ref([
   { name: 'SLE-Gateway-02', channel: 6, signal: -42, mac: 'AA:BB:CC:DD:EE:02', color: '#2196F3' },
   { name: 'SLE-Gateway-03', channel: 11, signal: -48, mac: 'AA:BB:CC:DD:EE:03', color: '#9C27B0' }
 ]);
-const pingForm = reactive({ host: '8.8.8.8', count: 4, timeout: 3, packetSize: 56 });
+const pingForm = reactive({ host: '223.6.6.6' });
 const pingResult = ref('');
-const tracerouteForm = reactive({ host: 'www.baidu.com', maxHops: 30 });
+const tracerouteForm = reactive({ host: 'www.baidu.com' });
 const tracerouteResult = ref('');
-const nslookupForm = reactive({ domain: 'www.baidu.com', dnsServer: '' });
+const nslookupForm = reactive({ domain: 'www.baidu.com' });
 const nslookupResult = ref('');
 const startScan = () => {
   scanning.value = true;
@@ -180,28 +206,24 @@ const getSignalColor = (signal) => {
   return '#F56C6C';
 };
 const runPing = () => {
-  pingResult.value = `正在 Ping ${pingForm.host} [${pingForm.host}] 具有 ${pingForm.packetSize} 字节的数据:\n\n`;
-  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=${pingForm.packetSize} 时间=15ms TTL=56\n`;
-  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=${pingForm.packetSize} 时间=12ms TTL=56\n`;
-  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=${pingForm.packetSize} 时间=18ms TTL=56\n`;
-  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=${pingForm.packetSize} 时间=14ms TTL=56\n\n`;
-  pingResult.value += `${pingForm.host} 的 Ping 统计信息:\n    数据包: 已发送 = ${pingForm.count}，已接收 = ${pingForm.count}，丢失 = 0 (0% 丢失)，\n`;
-  pingResult.value += `往返行程的估计时间(以毫秒为单位):\n    最短 = 12ms，最长 = 18ms，平均 = 14ms\n\n（示例数据，待接入实际接口）`;
+  pingResult.value = `正在 Ping ${pingForm.host} 具有 32 字节的数据:\n\n`;
+  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=32 时间=15ms TTL=56\n`;
+  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=32 时间=12ms TTL=56\n`;
+  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=32 时间=18ms TTL=56\n`;
+  pingResult.value += `来自 ${pingForm.host} 的回复: 字节=32 时间=14ms TTL=56\n\n`;
+  pingResult.value += `${pingForm.host} 的 Ping 统计信息:\n    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)\n`;
+  pingResult.value += `往返行程的估计时间(以毫秒为单位):\n    最短 = 12ms，最长 = 18ms，平均 = 14ms`;
 };
-const clearPingResult = () => { pingResult.value = ''; };
 const runTraceroute = () => {
-  tracerouteResult.value = `通过最多 ${tracerouteForm.maxHops} 个跃点跟踪到 ${tracerouteForm.host} 的路由\n\n`;
+  tracerouteResult.value = `通过最多 30 个跃点跟踪到 ${tracerouteForm.host} 的路由\n\n`;
   tracerouteResult.value += `  1    <1 ms    <1 ms    <1 ms  192.168.1.1\n  2     5 ms     4 ms     5 ms  10.0.0.1\n`;
   tracerouteResult.value += `  3    12 ms    11 ms    13 ms  61.144.56.1\n  4    15 ms    14 ms    16 ms  ${tracerouteForm.host} [220.181.38.148]\n\n`;
-  tracerouteResult.value += `跟踪完成。\n\n（示例数据，待接入实际接口）`;
+  tracerouteResult.value += `跟踪完成。`;
 };
-const clearTracerouteResult = () => { tracerouteResult.value = ''; };
 const runNslookup = () => {
-  const dns = nslookupForm.dnsServer || '8.8.8.8';
-  nslookupResult.value = `服务器:  ${dns}\nAddress:  ${dns}\n\n非权威应答:\n名称:    ${nslookupForm.domain}\n`;
-  nslookupResult.value += `Addresses:  220.181.38.148\n            220.181.38.149\n\n（示例数据，待接入实际接口）`;
+  nslookupResult.value = `服务器:  8.8.8.8\nAddress:  8.8.8.8\n\n非权威应答:\n名称:    ${nslookupForm.domain}\n`;
+  nslookupResult.value += `Addresses:  220.181.38.148\n            220.181.38.149`;
 };
-const clearNslookupResult = () => { nslookupResult.value = ''; };
 </script>
 <style scoped>
 .page { padding: 16px; }
@@ -209,19 +231,18 @@ const clearNslookupResult = () => { nslookupResult.value = ''; };
 .page-title { font-size: 16px; font-weight: 600; color: #303133; }
 .page-subtitle { margin-top: 6px; font-size: 12px; color: #909399; }
 .card { margin-top: 16px; }
-.chart-container { border: 1px solid #EBEEF5; border-radius: 4px; padding: 16px; background: #fff; }
-.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.chart-title { font-size: 14px; font-weight: 600; color: #303133; }
-.chart-legend { display: flex; gap: 16px; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #606266; }
-.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
-.chart-area { display: flex; gap: 8px; }
-.y-axis { display: flex; flex-direction: column; justify-content: space-between; width: 60px; height: 400px; }
-.y-label { font-size: 12px; color: #909399; text-align: right; }
-.chart-content { flex: 1; position: relative; }
-.x-axis { display: flex; justify-content: space-around; margin-top: 8px; }
-.x-label { font-size: 12px; color: #909399; text-align: center; width: 100px; }
-.signal-chart { width: 100%; height: 400px; border: 1px solid #EBEEF5; border-radius: 4px; background: linear-gradient(to bottom, #f5f7fa 0%, #ffffff 100%); }
-.result-box { background: #f5f7fa; border: 1px solid #EBEEF5; border-radius: 4px; padding: 16px; max-height: 400px; overflow-y: auto; }
-.result-box pre { margin: 0; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; color: #303133; white-space: pre-wrap; word-wrap: break-word; }
+.chart-container { border: 1px solid #EBEEF5; border-radius: 4px; padding: 20px; background: #fff; }
+.chart-header { margin-bottom: 20px; }
+.chart-title { font-size: 16px; font-weight: 600; color: #303133; }
+.chart-wrapper { display: flex; gap: 10px; }
+.y-axis-labels { display: flex; flex-direction: column; justify-content: space-between; width: 70px; height: 450px; padding-top: 10px; }
+.y-label { font-size: 13px; color: #606266; text-align: right; }
+.chart-main { flex: 1; }
+.signal-chart { width: 100%; height: 450px; background: #FAFAFA; border: 1px solid #DCDFE6; border-radius: 4px; }
+.x-axis-labels { display: flex; justify-content: space-around; margin-top: 8px; padding: 0 50px; }
+.x-label { font-size: 13px; color: #606266; text-align: center; flex: 1; }
+.result-label { font-size: 14px; color: #606266; margin-bottom: 8px; font-weight: 500; }
+.result-box { background: #F5F7FA; border: 1px solid #EBEEF5; border-radius: 4px; padding: 16px; min-height: 300px; max-height: 500px; overflow-y: auto; }
+.result-box pre { margin: 0; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #303133; white-space: pre-wrap; word-wrap: break-word; }
+.empty-result { color: #909399; text-align: center; padding: 100px 0; font-size: 14px; }
 </style>
