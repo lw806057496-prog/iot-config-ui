@@ -14,7 +14,13 @@ export const SIDE_MENUS = {
     { key: 'lan-basic', label: 'LAN', to: '/network/lan-basic' },
     { key: 'wireless-survey', label: '网络诊断', to: '/network/wireless-survey' }
   ],
-  interface: [{ key: 'ethernet-switch', label: '网口开关', to: '/interface/ethernet-switch' }],
+  interface: [
+    { key: 'ethernet-switch', label: '网口', to: '/interface/ethernet-switch' },
+    { key: 'rs485', label: 'RS485接口', to: '/interface/rs485' },
+    { key: 'can', label: 'CAN接口', to: '/interface/can' },
+    { key: 'dido', label: 'DI/DO接口', to: '/interface/dido' },
+    { key: 'expansion', label: '拓展机接口', to: '/interface/expansion' }
+  ],
   system: [{ key: 'time-zone', label: '系统时间', to: '/system/time-zone' }]
 };
 

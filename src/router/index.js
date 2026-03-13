@@ -9,6 +9,10 @@ import WifiHost from '../views/network/WifiHost.vue';
 import LanBasic from '../views/network/LanBasic.vue';
 import WirelessSurvey from '../views/network/WirelessSurvey.vue';
 import EthernetSwitch from '../views/interface/EthernetSwitch.vue';
+import RS485 from '../views/interface/RS485.vue';
+import CAN from '../views/interface/CAN.vue';
+import DIDO from '../views/interface/DIDO.vue';
+import Expansion from '../views/interface/Expansion.vue';
 import TimeZone from '../views/system/TimeZone.vue';
 
 const routes = [
@@ -38,7 +42,11 @@ const routes = [
         path: 'interface',
         children: [
           { path: '', redirect: '/interface/ethernet-switch' },
-          { path: 'ethernet-switch', name: 'EthernetSwitch', component: EthernetSwitch }
+          { path: 'ethernet-switch', name: 'EthernetSwitch', component: EthernetSwitch },
+          { path: 'rs485', name: 'RS485', component: RS485 },
+          { path: 'can', name: 'CAN', component: CAN },
+          { path: 'dido', name: 'DIDO', component: DIDO },
+          { path: 'expansion', name: 'Expansion', component: Expansion }
         ]
       },
       {
