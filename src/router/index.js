@@ -13,6 +13,13 @@ import RS485 from '../views/interface/RS485.vue';
 import CAN from '../views/interface/CAN.vue';
 import DIDO from '../views/interface/DIDO.vue';
 import TimeZone from '../views/system/TimeZone.vue';
+import SystemLog from '../views/system/SystemLog.vue';
+import ConfigManage from '../views/system/ConfigManage.vue';
+import FirmwareUpgrade from '../views/system/FirmwareUpgrade.vue';
+import UserManage from '../views/system/UserManage.vue';
+import RemoteManage from '../views/system/RemoteManage.vue';
+import SSHTool from '../views/system/SSHTool.vue';
+import SystemReboot from '../views/system/SystemReboot.vue';
 
 const routes = [
   {
@@ -51,7 +58,14 @@ const routes = [
         path: 'system',
         children: [
           { path: '', redirect: '/system/time-zone' },
-          { path: 'time-zone', name: 'TimeZone', component: TimeZone }
+          { path: 'time-zone', name: 'TimeZone', component: TimeZone },
+          { path: 'system-log', name: 'SystemLog', component: SystemLog },
+          { path: 'config-manage', name: 'ConfigManage', component: ConfigManage },
+          { path: 'firmware-upgrade', name: 'FirmwareUpgrade', component: FirmwareUpgrade },
+          { path: 'user-manage', name: 'UserManage', component: UserManage },
+          { path: 'remote-manage', name: 'RemoteManage', component: RemoteManage },
+          { path: 'ssh-tool', name: 'SSHTool', component: SSHTool },
+          { path: 'system-reboot', name: 'SystemReboot', component: SystemReboot }
         ]
       }
     ]
